@@ -102,4 +102,80 @@ Second and Third Scenarios:
 
 ## Module 2: Variable Creation and Processing Constraints from CSV
 
+In this module we will perform two sub tasks, converts .csv file into format[1] and constraints.csv file into sdc format
+
+![Image15](/assets/tclmodule2_1.png)
+
+### Sub Task 2 Convert .csv file into format[1]
+
+Start by creating variables using tcl script by reading the openMSP430_design_details.csv file in matrix form.
+
+![Image16](/assets/tclmodule2_2.png)
+![Image17](/assets/tclmodule2_3.png)
+
+- We start the task by reading the file then convert the .csv table into matrix using object m and convert into array form (my_arr). Once converted, we can access every cell of the excel data using TCL lindex command. The script used here is:
+
+![Image18](/assets/tclmodule2_4.png)
+
+- Next, we'll read the first column from a CSV file to define variable names and then assign the corresponding values from the second column. The first column contains names like `DesignName`, `OutputDirectory`, etc., but these are written with spaces—for example, `Design Name` or `Output Directory`, as shown in the figure below.
+
+- Before assigning values, we must remove any spaces from these names to form valid variable identifiers. Additionally, some entries in the second column may not contain complete file paths (e.g., `./test.tcl` or `~/test.tcl` instead of `home/akhilgunda/vsdsynth/test.tcl`). These paths need to be normalized and converted into absolute paths.
+
+![Image19](/assets/tclmodule2_5.png)
+![Image20](/assets/tclmodule2_6.png)
+![Image21](/assets/tclmodule2_7.png)
+
+- The script provided below handles both tasks: it removes spaces from variable names and normalizes relative paths to absolute ones before assigning them:
+
+![Image22](/assets/tclmodule2_8.png)
+
+- Expected Output:
+
+![Image23](/assets/tclmodule2_9.png)
+![Image24](/assets/tclmodule2_10.png)
+
+- This sub task is ended with checking if the dirctory/files provided in the .csv file actually exists or not
+
+- We need to check if the directory or the files mentioned in the details csv file exists or not. If not exists then we have to warn the user and exit the script. only if the output directroy doesnt exists then it creates a new directory. The script mentioned below checks if all the directory/files mentioned exsists or not.
+
+![Image29](/assets/tclmodule2_15.png)
+![Image25](/assets/tclmodule2_11.png)
+
+- **CASE1**: Output and other directory does not exist. Only Output Directory is created and for other directories user info is shown:
+
+![Image26](/assets/tclmodule2_12.png)
+
+- **CASE2**: If any file does not exist an user error info is shown:
+
+![Image27](/assets/tclmodule2_13.png)
+
+- **CASE3**: When all directories and files exists:
+
+![Image28](/assets/tclmodule2_14.png)
+
+### Sub Task 3 Convert constraints.csv file into SDC format
+
+- To begin, the `constraints.csv` file must be transformed into a matrix object to simplify cell-based data processing. The script provided below performs this transformation, where `constr_rows` and `constr_columns` indicate the total number of rows and columns in the CSV file, respectively.
+
+![Image30](/assets/tclmodule2_17.png)
+
+- The below `constraints.csv` file is structured into three primary sections: Clock constraints, Input port constraints, and Output port constraints.
+
+![Image31](/assets/tclmodule2_16.png)
+
+- For more streamlined processing, it’s beneficial to segment the CSV file based on these three categories. To do so, we need to identify the starting row index for each constraint type. The script below is designed to detect the starting row numbers for each section automatically.
+
+![Image32](/assets/tclmodule2_18.png)
+![Image33](/assets/tclmodule2_19.png)
+
+- Here we observe that the file contains 57 rows and 11 columns. The Clock constraints start at row 0, Input constraints begin at row 4, and Output constraints commence at row 27. Once these starting points are known, the `constraints.csv` file can be effectively converted into the required SDC format.
+
+</details>
+
+<details>
+
+ <summary>Module 3: Processing clock and input constraints</summary>
+
+## Module 3: Processing clock and input constraints
+
 </details>
